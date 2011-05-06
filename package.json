@@ -1,11 +1,11 @@
 {
   "author": "Brian Carr <bcarr14@gmail.com>",
-  "name": "sentinel",
-  "description": "Plug-and-play event-based security middleware for Connect",
+  "name": "komainu",
+  "description": "Plug-and-play evented security middleware for Connect",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mrmarbles/sentinel.git"
+    "url": "git://github.com/mrmarbles/komainu.git"
   },
   "main": "index",
   "engines": {

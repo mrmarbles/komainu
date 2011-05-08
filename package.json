@@ -1,7 +1,7 @@
 {
   "author": "Brian Carr <bcarr14@gmail.com>",
   "name": "komainu",
-  "description": "Plug-and-play evented security middleware for Connect",
+  "description": "Plug-and-play evented security middleware for ExpressJS",
   "version": "0.0.1",
   "repository": {
     "type": "git",

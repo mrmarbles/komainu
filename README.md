@@ -110,7 +110,7 @@ By default, Komainu will prevent unauthorized access to any resources with the e
 * /favicon.ico
 * Any resource containing a .css extension.
 
-`secure()`
+secure();
 ----------
 The `secure` method of the `SecurityProvider` returns a connect middleware-compliant closure that will eventually delegate an authentication algorithm to the `authenticate` event listener.  The resulting function will return a boolean value dictating whether or not access should be allowed or denied to the requested resource.  The default implementation of the authentication function simply determines whether or not a request represents a propery logged in user with a single `defaultKey`.  The session is properly established as a part of the default event chain.  You can easily provide your own authentication algorithm by passing in a function to the `secure()` method whose signature will is `function(req, res, next);`  Your implementation must return a boolean value, true to allow access and false to deny it.
 
@@ -139,12 +139,11 @@ Komainu's authentication mechanism is centered around the abstract concept of ac
 
 Dummy Users / Access Credentials
 --------------------------------
+In the 'Security in 30 Seconds' section you saw a sample code implementing the `addCredentials()` method of the `SecurityProvider`.  This method registers new test user data with the `SecurityProvider` in order to get up and running with security as quickly as possible.  It is not recommended that you use test data in production.  Production implementations should utilize the `login` and/or `initSession` event listeners to propery authenticate and initialize sessions for actual system users.
 
 Ignoring Specific Resources
 ---------------------------
-
-Default Event Chain
--------------------
+As mentioned earlier, Komainu `SecurityProvider` instances come preconfigured to ignore the `/favicon.ico` resource as well as any resources that end with `.css`.  When Komainu ignores resources, it will not emit any implicit events for those elements.  You can configure any `SecurityProvider` instances to ignore any resources by invoking the `addIgnore()` method.  This method accepts a function whose signature must be `function(req, res)` and must return a boolean result.  The function of course can now consider any and all `request` and `response` data in order to identify requests for which to forego security.  Returning `true` means the resources matching your function logic will be ignored - false means they're fair game.
 
 License
 -------

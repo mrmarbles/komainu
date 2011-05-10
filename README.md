@@ -110,6 +110,21 @@ By default, Komainu will prevent unauthorized access to any resources with the e
 * /favicon.ico
 * Any resource containing a .css extension.
 
+
+Customizing Security Behaviors
+------------------------------
+You can customize the behavior of Komainu by overriding (using that term loosely) any number of the preconfigured event listeners.  All you need to do is register one or more event listeners of the same name with the `SecurityProvider` in the same way you would any other `events.EventListener`.  For instance, Komainu will emit the `loginShow` event when the login screen needs to be displayed.  If you would like to replace the default login screen (which you're likely to want to do) then you simply need to create your own event listener;
+
+[ExpressJS](http://expressjs.com) Custom Login Form Example
+
+     var sp = new komainu.SecurityProvider();
+
+     sp.on('loginShow', function(req, res, err) {
+          res.render('login');
+     });
+
+The above example assumes that an actual `login` template exist in the correct directory structure so that the express response native `render()` method will function correctly.
+
 secure();
 ----------
 The `secure` method of the `SecurityProvider` returns a connect middleware-compliant closure that will eventually delegate an authentication algorithm to the `authenticate` event listener.  The resulting function will return a boolean value dictating whether or not access should be allowed or denied to the requested resource.  The default implementation of the authentication function simply determines whether or not a request represents a propery logged in user with a single `defaultKey`.  The session is properly established as a part of the default event chain.  You can easily provide your own authentication algorithm by passing in a function to the `secure()` method whose signature will is `function(req, res, next);`  Your implementation must return a boolean value, true to allow access and false to deny it.

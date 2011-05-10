@@ -10,30 +10,48 @@ Intro
 ------
 Komainu's core API is exposed via a single class called `SecurityProvider`.  This class extends the NodeJS core `events.EventEmitter` class.  The primary responsibility of the `SecurityProvider` is to understand when to implicitly emit certain events using a `request` and `response` object as context.  Instances of this class are preconfigured with event listeners specific to web application security.  Any and All of these predefined event listeners can be easily replaced by your own custom implementations.
 
-`SecurityProvider` API Summary
+SecurityProvider API Summary
 -----------
 
 ###Public Methods
-* `define(eventName, matchFunction) : boolean`  Calls to this method must accept a unique event name as well as a function whose implementation will tell the `SecurityProvider` whether or not to emit an event of the same name.  The signature of the method must be `matchFunction(req, res)` and it must return a boolean value dictating whether or not the event should be emitted.  Calls to this method will emit the `implicitEventDefined` broadcasting the `eventName` and `matchFunction` arguments.
-* `secure(authenticator) : fn`  Establishes the security algorithm to be implemented when the `authenticate` event is emitted.  The `authenticator` argument is optional.  If it is provided it's method signature must account for the request and response in that order `authenticate(req, res)` and must return a boolean value.
-* `ignore(req, res) : boolean`  Given the provided `request` and `response` objects, will return a boolean value indicating whether or not security events will be emitted.
-* `addIgnore(fn) : void`  Accepts a function whose signature must consider a `request` and `response` object in that order and must return a boolean value indicating whether or not security events should be emitted within the context of that information.  Should be used to tell Komainu to pause event emission for specific resources (e.g., JavaScript files, images, etc.)
-* `addCredentials(username, password, keys) : void`   Registers test credentials with the `SecurityProvder` to be used when testing security.  This method SHOULD NOT be used to store production authentication credentials.
-* `hasCredentials(username, password) : boolean`  Provided a username and password combination, will return a boolean value indicating whether or not a similar user has been previously registered via the `addCredentials` method.
+`define(eventName, matchFunction) : boolean`
+Calls to this method must accept a unique event name as well as a function whose implementation will tell the `SecurityProvider` whether or not to emit an event of the same name.  The signature of the method must be `matchFunction(req, res)` and it must return a boolean value dictating whether or not the event should be emitted.  Calls to this method will emit the `implicitEventDefined` broadcasting the `eventName` and `matchFunction` arguments.    
+`secure(authenticator) : fn`
+Establishes the security algorithm to be implemented when the `authenticate` event is emitted.  The `authenticator` argument is optional.  If it is provided it's method signature must account for the request and response in that order `authenticate(req, res)` and must return a boolean value.
+`ignore(req, res) : boolean`
+Given the provided `request` and `response` objects, will return a boolean value indicating whether or not security events will be emitted.
+`addIgnore(fn) : void`
+Accepts a function whose signature must consider a `request` and `response` object in that order and must return a boolean value indicating whether or not security events should be emitted within the context of that information.  Should be used to tell Komainu to pause event emission for specific resources (e.g., JavaScript files, images, etc.)
+`addCredentials(username, password, keys) : void`
+Registers test credentials with the `SecurityProvder` to be used when testing security.  This method SHOULD NOT be used to store production authentication credentials.
+`hasCredentials(username, password) : boolean`
+Provided a username and password combination, will return a boolean value indicating whether or not a similar user has been previously registered via the `addCredentials` method.
 
 ###Predefined Events
-* `match(req, res, authenticator)`  Emits any matched event defined via the `define()` method
-* `loginShow(req, res, err)`  Responsible for rendering a login screen. Emits no events.  Accepts an option `err` argument which should contain an array of strings representing login errors.
-* `loginRequest(req, res)`  Will parse username and password elements from a request when request data is available (`req.on('data')`) and will then emit `login`.
-* `login(req, res, username, password, keys)`  Checks to see if the provided username/password have been previously registered as test credentials, if so then `initSession` will be emitted passing in the `defaultKey` and then `loginSuccess`.  If no test credentials match the provided username/password then `loginFailure` will be emitted.
-* `loginSuccess(req, res, username)`  Redirects to application root "/" with a 302 status code.  Emits no events.
-* `loginFailure(req, res, username)`  Emits 'loginShow'.
-* `logout(req, res, username)`  Removes username and key information from the session.  Emits `sessionEnded` and `logoutSuccess`.
-* `initSession(req, res, username, keys)`  Establishes username and keys values within the session.  Emits `sessionStarted`.
-* `logoutSuccess(req, res)`  Redirects to the preconfigured login URL with a 302 response.
-* `authenticate(req, res, authenticator)`  Implements the supplied authenticator if one is provided, or one that was supplied with the secure() method.  If the authenticator returns true then 'accessGranted' will be emitted, otherwise `accessDenied` will be emitted.
-* `accessDenied(req, res)`  Emits 'loginShow' with an err array indicating access denied.
-* `accessGranted(req, res)`  Invokes connects next() method ensuring control is handed to the next handler in the middleware stack.
+`match(req, res, authenticator)`
+Emits any matched event defined via the `define()` method
+`loginShow(req, res, err)`
+Responsible for rendering a login screen. Emits no events.  Accepts an option `err` argument which should contain an array of strings representing login errors.
+`loginRequest(req, res)`
+Will parse username and password elements from a request when request data is available (`req.on('data')`) and will then emit `login`.
+`login(req, res, username, password, keys)`
+Checks to see if the provided username/password have been previously registered as test credentials, if so then `initSession` will be emitted passing in the `defaultKey` and then `loginSuccess`.  If no test credentials match the provided username/password then `loginFailure` will be emitted.
+`loginSuccess(req, res, username)`
+Redirects to application root "/" with a 302 status code.  Emits no events.
+`loginFailure(req, res, username)`
+Emits 'loginShow'.
+`logout(req, res, username)`
+Removes username and key information from the session.  Emits `sessionEnded` and `logoutSuccess`.
+`initSession(req, res, username, keys)`
+Establishes username and keys values within the session.  Emits `sessionStarted`.
+`logoutSuccess(req, res)`
+Redirects to the preconfigured login URL with a 302 response.
+`authenticate(req, res, authenticator)`
+Implements the supplied authenticator if one is provided, or one that was supplied with the secure() method.  If the authenticator returns true then 'accessGranted' will be emitted, otherwise `accessDenied` will be emitted.
+`accessDenied(req, res)`
+Emits 'loginShow' with an err array indicating access denied.
+`accessGranted(req, res)`
+Invokes connects next() method ensuring control is handed to the next handler in the middleware stack.
 
 Basic Usage
 -----------

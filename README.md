@@ -13,8 +13,9 @@ Komainu's core API is exposed via a single class called `SecurityProvider`.  Thi
 Security in 30 Seconds
 ----------------------
 [Connect](https://github.com/senchalabs/connect)
+
      var connect = require('connect'),
-       komainu = require('komainu');
+          komainu = require('komainu');
 
      var sp = new komainu.SecurityProvider();
      sp.addCredentials('test', 'test', 'LOGGED_IN_USER') // test purposes only
@@ -26,8 +27,9 @@ Security in 30 Seconds
      ).listen(3000);
 
 [ExpressJS](http://expressjs.com)
+
      var express = require('express'),
-       komainu = require('komainu');
+          komainu = require('komainu');
 
      var app = module.exports = express.createServer();
      var sp = new komainu.SecurityProvider();

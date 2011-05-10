@@ -10,6 +10,39 @@ Intro
 ------
 Komainu's core API is exposed via a single class called `SecurityProvider`.  This class extends the NodeJS core `events.EventEmitter` class.  The primary responsibility of the `SecurityProvider` is to understand when to implicitly emit certain events using a `request` and `response` object as context.  Instances of this class are preconfigured with event listeners specific to web application security.  Any and All of these predefined event listeners can be easily replaced by your own custom implementations.
 
+Security in 30 Seconds
+----------------------
+[Connect](https://github.com/senchalabs/connect)
+     var connect = require('connect'),
+       komainu = require('komainu');
+
+     var sp = new komainu.SecurityProvider();
+     sp.addCredentials('test', 'test', 'LOGGED_IN_USER') // test purposes only
+
+     connect.createServer(
+          connect.cookieParser(),
+          connect.session({secret:'mySecretKey'}),
+          sp.secure()
+     ).listen(3000);
+
+[ExpressJS](http://expressjs.com)
+     var express = require('express'),
+       komainu = require('komainu');
+
+     var app = module.exports = express.createServer();
+     var sp = new komainu.SecurityProvider();
+     sp.addCredentials('test', 'test', 'LOGGED_IN_USER'); // test purposes only
+
+     app.configure(function() {
+          app.use(express.cookieParser());
+          app.use(express.session({secret:'mySecretKey'});
+          app.use(sp.secure());
+     });
+
+     app.listen(3000);
+
+
+
 SecurityProvider API Summary
 -----------
 

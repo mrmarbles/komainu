@@ -1,1 +1,1 @@
-module.exports = require('./lib/security_provider.js');
+module.exports = require('./lib/security_provider_factory.js');

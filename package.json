@@ -1,8 +1,8 @@
 {
   "author": "Brian Carr <bcarr14@gmail.com>",
   "name": "komainu",
-  "description": "Plug-and-play evented security middleware for ExpressJS",
-  "version": "0.0.1",
+  "description": "Lightweight, evented security middleware designed for use with Connect based web applications. Integrates seamlessly with ExpressJS.",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/mrmarbles/komainu.git"
@@ -10,7 +10,5 @@
   "main": "index",
   "engines": {
     "node": ">= 0.4.7"
-  },
-  "dependencies": {},
-  "devDependencies": {}
+  }
 }

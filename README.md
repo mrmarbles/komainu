@@ -41,9 +41,9 @@ Security in 30 Seconds
 
 Documentation
 -------------
-[Source](https://github.com/mrmarbles/komainu)
-[API Docs and Tutorials](https://github.com/mrmarbles/komainu/wiki)
-[Change Log](https://github.com/mrmarbles/komainu/wiki/Change-Log)
+* [Source](https://github.com/mrmarbles/komainu)
+* [API Docs and Tutorials](https://github.com/mrmarbles/komainu/wiki)
+* [Change Log](https://github.com/mrmarbles/komainu/wiki/Change-Log)
 
 License
 -------
